@@ -5,52 +5,35 @@ declare(strict_types=1);
 namespace App\Emails\Domain\Entity;
 
 use App\Shared\Domain\Service\UidService;
+use DateTimeImmutable;
 
 class Email
 {
-    private string $ulid;
-    private int $emailStatusId;
+    private string $id;
+    private EmailStatus $emailStatus;
     private string $address;
     private string $theme;
     private string $content;
-    private string $created_at;
-    private ?string $updated_at;
+    private DateTimeImmutable $createdAt;
+    private ?DateTimeImmutable $updatedAt = null;
 
     public function __construct(
         string $address,
         string $theme,
         string $content,
-        int $emailStatusId
+        EmailStatus $emailStatus,
+        DateTimeImmutable $createdAt,
     ) {
-        $this->ulid = UidService::generateUlid();
+        $this->id = UidService::generateUlid();
         $this->address = $address;
         $this->theme = $theme;
         $this->content = $content;
-        $this->emailStatusId = $emailStatusId;
+        $this->emailStatus = $emailStatus;
+        $this->createdAt = $createdAt;
     }
 
-    public function getUlid(): string
+    public function getId(): string
     {
-        return $this->ulid;
-    }
-
-    public function getEmailStatusId(): int
-    {
-        return $this->emailStatusId;
-    }
-
-    public function getAddress(): string
-    {
-        return $this->address;
-    }
-
-    public function getTheme(): string
-    {
-        return $this->theme;
-    }
-
-    public function getContent(): string
-    {
-        return $this->content;
+        return $this->id;
     }
 }

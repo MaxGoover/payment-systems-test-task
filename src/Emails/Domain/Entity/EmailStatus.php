@@ -6,26 +6,31 @@ namespace App\Emails\Domain\Entity;
 
 class EmailStatus
 {
+    const NEW = 'new';
+    const IN_QUEUE = 'in_queue';
+    const SENT = 'sent';
+    const BUS_ERROR = 'bus_error';
+    const SENDING_ERROR = 'sending_error';
+
+    const LIST_CODENAMES = [
+        self::NEW,
+        self::IN_QUEUE,
+        self::SENT,
+        self::BUS_ERROR,
+        self::SENDING_ERROR,
+    ];
+
     private int $id;
-    private string $name;
     private string $codename;
 
-    public function __construct(
-        string $name,
-        string $codename,
-    ) {
-        $this->name = $name;
+    public function __construct(string $codename)
+    {
         $this->codename = $codename;
     }
 
     public function getId(): int
     {
         return $this->id;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     public function getCodename(): string

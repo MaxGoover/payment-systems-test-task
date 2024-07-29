@@ -5,7 +5,6 @@
     <id name="id" type="smallint" column="id">
       <generator strategy="AUTO"/>
     </id>
-    <field name="name" type="string" length="100" nullable="false"/>
-    <field name="codename" type="string" length="100" nullable="false"/>
-  </entity>
+    <field name="codename" type="string" length="100" nullable="false" unique="true"/>
+</entity>
 </doctrine-mapping>
