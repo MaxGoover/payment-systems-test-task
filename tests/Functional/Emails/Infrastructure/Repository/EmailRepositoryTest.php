@@ -25,9 +25,20 @@ class EmailRepositoryTest extends WebTestCase
         $this->testCreateSuccess();
     }
 
-    public function tearDown(): void
+    public function testCreateSuccess(): void
     {
-        $this->testDeleteSuccess();
+        $this->email = $this->emailFixture->create();
+        $this->email = $this->emails->findById($this->email->getId());
+        $this->assertNotNull($this->email);
+    }
+
+    public function testDeleteSuccess(): void
+    {
+        $id = $this->email->getId();
+        $this->emails->delete($this->email);
+
+        $this->email = $this->emails->findById($id);
+        $this->assertNull($this->email);
     }
 
     public function testFindByIdSuccess()
@@ -35,21 +46,5 @@ class EmailRepositoryTest extends WebTestCase
         $id = $this->email->getId();
         $this->email = $this->emails->findById($id);
         $this->assertEquals($this->email->getId(), $id);
-    }
-
-    private function testCreateSuccess(): void
-    {
-        $this->email = $this->emailFixture->create();
-        $this->email = $this->emails->findById($this->email->getId());
-        $this->assertNotNull($this->email);
-    }
-
-    private function testDeleteSuccess(): void
-    {
-        $id = $this->email->getId();
-        $this->emails->delete($this->email);
-
-        $this->email = $this->emails->findById($id);
-        $this->assertNull($this->email);
     }
 }

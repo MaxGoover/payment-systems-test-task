@@ -23,9 +23,18 @@ class EmailStatusRepositoryTest extends WebTestCase
         $this->testCreateSuccess();
     }
 
-    public function tearDown(): void
+    public function testCreateSuccess(): void
     {
-        $this->testDeleteSuccess();
+        $this->emailStatus = $this->emailStatusFixture->create();
+        $isExists = $this->emailStatuses->isExists($this->emailStatus);
+        $this->assertTrue($isExists);
+    }
+
+    public function testDeleteSuccess(): void
+    {
+        $this->emailStatuses->delete($this->emailStatus);
+        $isExists = $this->emailStatuses->isExists($this->emailStatus);
+        $this->assertFalse($isExists);
     }
 
     public function testFindByCodenameSuccess()
@@ -46,19 +55,5 @@ class EmailStatusRepositoryTest extends WebTestCase
     {
         $isExists = $this->emailStatuses->isExists($this->emailStatus);
         $this->assertTrue($isExists);
-    }
-
-    private function testCreateSuccess(): void
-    {
-        $this->emailStatus = $this->emailStatusFixture->create();
-        $isExists = $this->emailStatuses->isExists($this->emailStatus);
-        $this->assertTrue($isExists);
-    }
-
-    private function testDeleteSuccess(): void
-    {
-        $this->emailStatuses->delete($this->emailStatus);
-        $isExists = $this->emailStatuses->isExists($this->emailStatus);
-        $this->assertFalse($isExists);
     }
 }
