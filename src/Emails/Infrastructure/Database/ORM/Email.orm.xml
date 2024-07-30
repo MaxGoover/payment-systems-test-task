@@ -13,5 +13,8 @@
     <many-to-one field="emailStatus" target-entity="App\Emails\Domain\Entity\EmailStatus">
       <join-column name="email_status_id" referenced-column-name="id" nullable="false"/>
     </many-to-one>
+    <unique-constraints>
+      <unique-constraint columns="address,theme"/>
+    </unique-constraints>
   </entity>
 </doctrine-mapping>

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240729171709 extends AbstractMigration
+final class Version20240730181501 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -24,6 +24,7 @@ final class Version20240729171709 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_40960158FB685056 ON email_statuses (codename)');
         $this->addSql('CREATE TABLE emails (id VARCHAR(26) NOT NULL, email_status_id SMALLINT NOT NULL, address VARCHAR(320) NOT NULL, theme VARCHAR(500) NOT NULL, content TEXT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_4C81E85264FC9F96 ON emails (email_status_id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_4C81E852D4E6F819775E708 ON emails (address, theme)');
         $this->addSql('ALTER TABLE emails ADD CONSTRAINT FK_4C81E85264FC9F96 FOREIGN KEY (email_status_id) REFERENCES email_statuses (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 

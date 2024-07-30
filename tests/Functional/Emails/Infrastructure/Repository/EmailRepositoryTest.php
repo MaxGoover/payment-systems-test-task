@@ -2,83 +2,54 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Emails\Infrastructure\Repository;
+namespace Tests\Functional\Emails\Infrastructure\Repository;
 
 use App\Emails\Domain\Entity\Email;
-use App\Emails\Domain\Entity\EmailStatus;
-use App\Emails\Domain\Factory\EmailFactory;
-use App\Emails\Domain\Factory\EmailStatusFactory;
 use App\Emails\Infrastructure\Repository\EmailRepository;
 use App\Emails\Infrastructure\Repository\EmailStatusRepository;
-use Faker\Factory;
-use Faker\Generator;
+use Tests\Fixture\Emails\EmailFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class EmailRepositoryTest extends WebTestCase
 {
-    private ?Email $createdEmail;
-    private ?EmailStatus $createdEmailStatus;
+    private ?Email $email;
+    private EmailFixture $emailFixture;
     private EmailRepository $emails;
-    private EmailStatusRepository $emailStatuses;
-    private Generator $faker;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->emails = static::getContainer()->get(EmailRepository::class);
-        $this->emailStatuses = static::getContainer()->get(EmailStatusRepository::class);
-        $this->faker = Factory::create();
-
-        $this->createEmailStatusNew();
+        $emailStatuses = static::getContainer()->get(EmailStatusRepository::class);
+        $this->emailFixture = new EmailFixture($this->emails, $emailStatuses);
+        $this->testCreateSuccess();
     }
-    
+
     public function tearDown(): void
     {
-        $this->deleteEmailStatus();
-    }
-    
-    public function testCreateSuccess(): void
-    {
-        $this->createEmail();
-        $this->deleteEmail();
+        $this->testDeleteSuccess();
     }
 
-    private function createEmail()
+    public function testFindByIdSuccess()
     {
-        $address = $this->faker->email();
-        $theme = $this->faker->realText(50);
-        $content = $this->faker->realText(100);
-
-        $email = EmailFactory::create($address, $theme, $content, $this->createdEmailStatus);
-        $this->emails->create($email);
-
-        $this->createdEmail = $this->emails->findById($email->getId());
-        $this->assertNotNull($this->createdEmail);
-        $this->assertEquals($email->getId(), $this->createdEmail->getId());
+        $id = $this->email->getId();
+        $this->email = $this->emails->findById($id);
+        $this->assertEquals($this->email->getId(), $id);
     }
 
-    private function createEmailStatusNew()
+    private function testCreateSuccess(): void
     {
-        $emailStatus = EmailStatusFactory::create(EmailStatus::NEW);
-        $this->emailStatuses->create($emailStatus);
-
-        $this->createdEmailStatus = $this->emailStatuses->findByCodename(EmailStatus::NEW);
-        $this->assertNotNull($this->createdEmailStatus);
+        $this->email = $this->emailFixture->create();
+        $this->email = $this->emails->findById($this->email->getId());
+        $this->assertNotNull($this->email);
     }
 
-    private function deleteEmail()
+    private function testDeleteSuccess(): void
     {
-        $createdEmailId = $this->createdEmail->getId();
-        $this->emails->delete($this->createdEmail);
-        $this->createdEmail = $this->emails->findById($createdEmailId);
-        $this->assertNull($this->createdEmail);
-    }
+        $id = $this->email->getId();
+        $this->emails->delete($this->email);
 
-    private function deleteEmailStatus()
-    {
-        $createdEmailStatusId = $this->createdEmailStatus->getId();
-        $this->emailStatuses->delete($this->createdEmailStatus);
-        $this->createdEmailStatus = $this->emailStatuses->findById($createdEmailStatusId);
-        $this->assertNull($this->createdEmailStatus);
+        $this->email = $this->emails->findById($id);
+        $this->assertNull($this->email);
     }
 }

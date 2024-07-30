@@ -2,52 +2,63 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Emails\Infrastructure\Repository;
+namespace Tests\Functional\Emails\Infrastructure\Repository;
 
 use App\Emails\Domain\Entity\EmailStatus;
-use App\Emails\Domain\Factory\EmailStatusFactory;
 use App\Emails\Infrastructure\Repository\EmailStatusRepository;
-use Faker\Factory;
-use Faker\Generator;
+use Tests\Fixture\Emails\EmailStatusFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class EmailStatusRepositoryTest extends WebTestCase
 {
-    private ?EmailStatus $createdEmailStatus;
+    private EmailStatus $emailStatus;
+    private EmailStatusFixture $emailStatusFixture;
     private EmailStatusRepository $emailStatuses;
-    private Generator $faker;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->emailStatuses = static::getContainer()->get(EmailStatusRepository::class);
-        $this->faker = Factory::create();
+        $this->emailStatusFixture = new EmailStatusFixture($this->emailStatuses);
+        $this->testCreateSuccess();
     }
 
-    public function testCreateSuccess(): void
+    public function tearDown(): void
     {
-        $this->createEmailStatus();
-        $this->deleteEmailStatus();
+        $this->testDeleteSuccess();
     }
 
-    private function createEmailStatus()
+    public function testFindByCodenameSuccess()
     {
-        $codename = $this->faker->randomElement(EmailStatus::LIST_CODENAMES);
-        $this->assertIsString($codename);
-
-        $emailStatus = EmailStatusFactory::create($codename, $codename);
-        $this->emailStatuses->create($emailStatus);
-
-        $this->createdEmailStatus = $this->emailStatuses->findById($emailStatus->getId());
-        $this->assertNotNull($this->createdEmailStatus);
-        $this->assertEquals($emailStatus->getCodename(), $this->createdEmailStatus->getCodename());
+        $codename = $this->emailStatus->getCodename();
+        $this->emailStatus = $this->emailStatuses->findByCodename($codename);
+        $this->assertEquals($this->emailStatus->getCodename(), $codename);
     }
 
-    private function deleteEmailStatus()
+    public function testFindByIdSuccess()
     {
-        $createdEmailStatusId = $this->createdEmailStatus->getId();
-        $this->emailStatuses->delete($this->createdEmailStatus);
-        $this->createdEmailStatus = $this->emailStatuses->findById($createdEmailStatusId);
-        $this->assertNull($this->createdEmailStatus);
+        $id = $this->emailStatus->getId();
+        $this->emailStatus = $this->emailStatuses->findById($id);
+        $this->assertEquals($this->emailStatus->getId(), $id);
+    }
+
+    public function testIsExistsSuccess()
+    {
+        $isExists = $this->emailStatuses->isExists($this->emailStatus);
+        $this->assertTrue($isExists);
+    }
+
+    private function testCreateSuccess(): void
+    {
+        $this->emailStatus = $this->emailStatusFixture->create();
+        $isExists = $this->emailStatuses->isExists($this->emailStatus);
+        $this->assertTrue($isExists);
+    }
+
+    private function testDeleteSuccess(): void
+    {
+        $this->emailStatuses->delete($this->emailStatus);
+        $isExists = $this->emailStatuses->isExists($this->emailStatus);
+        $this->assertFalse($isExists);
     }
 }

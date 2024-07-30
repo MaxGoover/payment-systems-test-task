@@ -40,4 +40,9 @@ class EmailStatusRepository extends ServiceEntityRepository implements EmailStat
     {
         return $this->find($id);
     }
+
+    public function isExists(EmailStatus $emailStatus): bool
+    {
+        return (bool)$this->findByCodename($emailStatus->getCodename());
+    }
 }
