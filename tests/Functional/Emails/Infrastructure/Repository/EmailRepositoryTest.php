@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Functional\Emails\Infrastructure\Repository;
 
 use App\Emails\Domain\Entity\Email;
-use App\Emails\Infrastructure\Repository\EmailRepository;
-use App\Emails\Infrastructure\Repository\EmailStatusRepository;
+use App\Emails\Domain\Repository\EmailRepositoryInterface;
+use App\Emails\Domain\Repository\EmailStatusRepositoryInterface;
 use Tests\Fixture\Emails\EmailFixture;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -14,13 +14,13 @@ class EmailRepositoryTest extends WebTestCase
 {
     private ?Email $email;
     private EmailFixture $emailFixture;
-    private EmailRepository $emails;
+    private EmailRepositoryInterface $emails;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->emails = static::getContainer()->get(EmailRepository::class);
-        $emailStatuses = static::getContainer()->get(EmailStatusRepository::class);
+        $this->emails = static::getContainer()->get(EmailRepositoryInterface::class);
+        $emailStatuses = static::getContainer()->get(EmailStatusRepositoryInterface::class);
         $this->emailFixture = new EmailFixture($this->emails, $emailStatuses);
         $this->testCreateSuccess();
     }

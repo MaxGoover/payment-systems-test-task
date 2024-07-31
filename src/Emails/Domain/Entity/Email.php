@@ -36,4 +36,29 @@ class Email
     {
         return $this->id;
     }
+
+    public function getEmailStatus(): EmailStatus
+    {
+        return $this->emailStatus;
+    }
+
+    public function getAddress(): string
+    {
+        return $this->address;
+    }
+
+    public function getTheme(): string
+    {
+        return $this->theme;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
 }
