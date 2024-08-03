@@ -25,12 +25,6 @@ class EmailStatusRepository extends ServiceEntityRepository implements EmailStat
         $this->em->flush();
     }
 
-    public function delete(EmailStatus $emailStatus): void
-    {
-        $this->em->remove($emailStatus);
-        $this->em->flush();
-    }
-
     public function findByCodename(string $codename): ?EmailStatus
     {
         return $this->findOneBy(['codename' => $codename]);

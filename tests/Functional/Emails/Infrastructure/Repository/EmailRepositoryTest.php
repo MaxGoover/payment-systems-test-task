@@ -22,7 +22,6 @@ class EmailRepositoryTest extends WebTestCase
         $this->emails = static::getContainer()->get(EmailRepositoryInterface::class);
         $emailStatuses = static::getContainer()->get(EmailStatusRepositoryInterface::class);
         $this->emailFixture = new EmailFixture($this->emails, $emailStatuses);
-        $this->testCreateSuccess();
     }
 
     public function testCreateSuccess(): void
@@ -32,17 +31,23 @@ class EmailRepositoryTest extends WebTestCase
         $this->assertNotNull($this->email);
     }
 
-    public function testDeleteSuccess(): void
+    public function testCreateDistributionSuccess(): void
     {
-        $id = $this->email->getId();
-        $this->emails->delete($this->email);
+        $emailsList = [];
+        for ($i = 0; $i < 3; $i++) {
+            $emailsList[] = $this->emailFixture->create();
+        }
 
-        $this->email = $this->emails->findById($id);
-        $this->assertNull($this->email);
+        $this->emails->createDistribution($emailsList);
+        foreach ($emailsList as $email) {
+            $this->email = $this->emails->findById($email->getId());
+            $this->assertNotNull($this->email);
+        }
     }
 
     public function testFindByIdSuccess()
     {
+        $this->testCreateSuccess();
         $id = $this->email->getId();
         $this->email = $this->emails->findById($id);
         $this->assertEquals($this->email->getId(), $id);

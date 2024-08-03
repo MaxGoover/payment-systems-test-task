@@ -10,8 +10,6 @@ interface EmailStatusRepositoryInterface
 {
     public function create(EmailStatus $emailStatus): void;
 
-    public function delete(EmailStatus $emailStatus): void;
-
     public function findByCodename(string $codename): ?EmailStatus;
 
     public function findById(int $id): ?EmailStatus;

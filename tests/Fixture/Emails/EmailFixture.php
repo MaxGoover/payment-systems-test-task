@@ -27,7 +27,7 @@ class EmailFixture
 
     public function create(): Email
     {
-        $address = $this->faker->email();
+        $address = $this->fakeAddress();
         $theme = $this->faker->realText(50);
         $content = $this->faker->realText(100);
         $emailStatus = $this->emailStatuses->findByCodename(EmailStatus::NEW);
@@ -36,5 +36,10 @@ class EmailFixture
         $this->emails->create($email);
 
         return $email;
+    }
+
+    public function fakeAddress(): string
+    {
+        return $this->faker->email();
     }
 }

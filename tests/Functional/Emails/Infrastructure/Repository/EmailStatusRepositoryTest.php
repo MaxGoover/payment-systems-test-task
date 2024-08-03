@@ -30,13 +30,6 @@ class EmailStatusRepositoryTest extends WebTestCase
         $this->assertTrue($isExists);
     }
 
-    public function testDeleteSuccess(): void
-    {
-        $this->emailStatuses->delete($this->emailStatus);
-        $isExists = $this->emailStatuses->isExists($this->emailStatus);
-        $this->assertFalse($isExists);
-    }
-
     public function testFindByCodenameSuccess()
     {
         $codename = $this->emailStatus->getCodename();

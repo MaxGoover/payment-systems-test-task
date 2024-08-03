@@ -21,7 +21,13 @@ class FindEmailByIdQueryHandler implements QueryHandlerInterface
         if (is_null($email)) {
             return null;
         }
-
-        return EmailDTO::fromEntity($email);
+        return new EmailDTO(
+            id: $email->getId(),
+            emailStatus: $email->getEmailStatus(),
+            address: $email->getAddress(),
+            theme: $email->getTheme(),
+            content: $email->getContent(),
+            createdAt: $email->getCreatedAt(),
+        );
     }
 }

@@ -5,18 +5,24 @@ declare(strict_types=1);
 namespace App\Emails\Application\DTO;
 
 use App\Emails\Domain\Entity\Email;
+use App\Emails\Domain\Entity\EmailStatus;
+use DateTime;
+use ReflectionClass;
 
 class EmailDTO
 {
-    public static function fromEntity(Email $email): self
+    public function __construct(
+        public readonly ?string $id,
+        public readonly ?EmailStatus $emailStatus,
+        public readonly ?string $address,
+        public readonly ?string $theme,
+        public readonly ?string $content,
+        public readonly ?DateTime $createdAt,
+    ) {
+    }
+
+    public function getStatusCodename(): string
     {
-        return new self(
-            $email->getId(),
-            $email->getEmailStatus(),
-            $email->getAddress(),
-            $email->getTheme(),
-            $email->getContent(),
-            $email->getCreatedAt(),
-        );
+        return $this->emailStatus->getCodename();
     }
 }

@@ -1,5 +1,5 @@
 controllers:
   resource:
-    path: ../src/Shared/Infrastructure/Controller/
-    namespace: App\Shared\Infrastructure\Controller
+    path: ../src/Shared/Infrastructure/Action/
+    namespace: App\Shared\Infrastructure\Action
   type: attribute

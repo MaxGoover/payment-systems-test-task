@@ -25,14 +25,31 @@ class EmailRepository extends ServiceEntityRepository implements EmailRepository
         $this->em->flush();
     }
 
-    public function delete(Email $email): void
+    /**
+     * @param Email[] $emails
+     */
+    public function createDistribution(array $emails): void
     {
-        $this->em->remove($email);
+        foreach ($emails as $email) {
+            $isExistsEmail = $this->isExistsByParams([
+                'address' => $email->getAddress(),
+                'theme' => $email->getTheme()
+            ]);
+
+            if (!$isExistsEmail) {
+                $this->em->persist($email);
+            }
+        }
         $this->em->flush();
     }
 
     public function findById(string $id): ?Email
     {
         return $this->find($id);
+    }
+
+    public function isExistsByParams(array $params): bool
+    {
+        return (bool)$this->findOneBy($params);
     }
 }

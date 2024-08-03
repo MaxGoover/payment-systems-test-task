@@ -6,7 +6,7 @@ namespace App\Emails\Domain\Factory;
 
 use App\Emails\Domain\Entity\Email;
 use App\Emails\Domain\Entity\EmailStatus;
-use DateTimeImmutable;
+use DateTime;
 
 class EmailFactory
 {
@@ -16,6 +16,6 @@ class EmailFactory
         string $content,
         EmailStatus $emailStatus,
     ): Email {
-        return new Email($address, $theme, $content, $emailStatus, new DateTimeImmutable());
+        return new Email($address, $theme, $content, $emailStatus, new DateTime());
     }
 }
