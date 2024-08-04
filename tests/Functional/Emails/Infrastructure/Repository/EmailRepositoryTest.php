@@ -24,32 +24,32 @@ class EmailRepositoryTest extends WebTestCase
         $this->emailFixture = new EmailFixture($this->emails, $emailStatuses);
     }
 
-    public function testCreateSuccess(): void
+    public function testFindByIdSuccess()
+    {
+        $this->testStoreSuccess();
+        $id = $this->email->getId();
+        $this->email = $this->emails->findById($id);
+        $this->assertEquals($this->email->getId(), $id);
+    }
+
+    public function testStoreSuccess(): void
     {
         $this->email = $this->emailFixture->create();
         $this->email = $this->emails->findById($this->email->getId());
         $this->assertNotNull($this->email);
     }
 
-    public function testCreateDistributionSuccess(): void
+    public function testStoreDistributionSuccess(): void
     {
         $emailsList = [];
         for ($i = 0; $i < 3; $i++) {
             $emailsList[] = $this->emailFixture->create();
         }
 
-        $this->emails->createDistribution($emailsList);
+        $this->emails->storeDistribution($emailsList);
         foreach ($emailsList as $email) {
             $this->email = $this->emails->findById($email->getId());
             $this->assertNotNull($this->email);
         }
-    }
-
-    public function testFindByIdSuccess()
-    {
-        $this->testCreateSuccess();
-        $id = $this->email->getId();
-        $this->email = $this->emails->findById($id);
-        $this->assertEquals($this->email->getId(), $id);
     }
 }

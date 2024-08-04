@@ -19,12 +19,6 @@ class EmailStatusRepository extends ServiceEntityRepository implements EmailStat
         $this->em = $this->getEntityManager();
     }
 
-    public function create(EmailStatus $emailStatus): void
-    {
-        $this->em->persist($emailStatus);
-        $this->em->flush();
-    }
-
     public function findByCodename(string $codename): ?EmailStatus
     {
         return $this->findOneBy(['codename' => $codename]);
@@ -38,5 +32,11 @@ class EmailStatusRepository extends ServiceEntityRepository implements EmailStat
     public function isExists(EmailStatus $emailStatus): bool
     {
         return (bool)$this->findByCodename($emailStatus->getCodename());
+    }
+
+    public function store(EmailStatus $emailStatus): void
+    {
+        $this->em->persist($emailStatus);
+        $this->em->flush();
     }
 }

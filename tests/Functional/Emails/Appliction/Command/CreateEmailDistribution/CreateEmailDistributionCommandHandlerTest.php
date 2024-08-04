@@ -19,13 +19,13 @@ class CreateEmailDistributionCommandHandlerTest extends WebTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->commandBus = $this::getContainer()->get(CommandBusInterface::class);
+        $this->commandBus = static::getContainer()->get(CommandBusInterface::class);
         $this->emails = static::getContainer()->get(EmailRepositoryInterface::class);
         $emailStatuses = static::getContainer()->get(EmailStatusRepositoryInterface::class);
         $this->emailFixture = new EmailFixture($this->emails, $emailStatuses);
     }
 
-    public function testCreateEmailSuccess(): void
+    public function testStoreEmailSuccess(): void
     {
         $email = $this->emailFixture->create();
         $this->fillAddressesList();

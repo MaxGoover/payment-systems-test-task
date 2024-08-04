@@ -67,8 +67,13 @@ class Email
         return $this->createdAt;
     }
 
-    public function isEmailStatusNew(): bool
+    public function setUpdatedAt(DateTime $updatedAt): void
     {
-        return $this->emailStatus->getCodename() === EmailStatus::NEW;
+        $this->updatedAt = $updatedAt;
+    }
+
+    public function isEmailStatusInQueue(): bool
+    {
+        return $this->emailStatus->getCodename() === EmailStatus::IN_QUEUE;
     }
 }

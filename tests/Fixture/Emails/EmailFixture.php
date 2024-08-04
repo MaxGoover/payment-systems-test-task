@@ -33,7 +33,7 @@ class EmailFixture
         $emailStatus = $this->emailStatuses->findByCodename(EmailStatus::NEW);
 
         $email = EmailFactory::create($address, $theme, $content, $emailStatus);
-        $this->emails->create($email);
+        $this->emails->store($email);
 
         return $email;
     }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Emails\Application\Query\FindEmailById;
 
-use App\Shared\Application\Query\QueryHandlerInterface;
 use App\Emails\Application\DTO\EmailDTO;
 use App\Emails\Domain\Repository\EmailRepositoryInterface;
+use App\Shared\Application\Query\QueryHandlerInterface;
 
 class FindEmailByIdQueryHandler implements QueryHandlerInterface
 {

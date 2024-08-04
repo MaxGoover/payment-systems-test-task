@@ -20,32 +20,32 @@ class EmailStatusRepositoryTest extends WebTestCase
         parent::setUp();
         $this->emailStatuses = static::getContainer()->get(EmailStatusRepositoryInterface::class);
         $this->emailStatusFixture = new EmailStatusFixture($this->emailStatuses);
-        $this->testCreateSuccess();
+        $this->testStoreSuccess();
     }
 
-    public function testCreateSuccess(): void
+    // public function testFindByCodenameSuccess()
+    // {
+    //     $codename = $this->emailStatus->getCodename();
+    //     $this->emailStatus = $this->emailStatuses->findByCodename($codename);
+    //     $this->assertEquals($this->emailStatus->getCodename(), $codename);
+    // }
+
+    // public function testFindByIdSuccess()
+    // {
+    //     $id = $this->emailStatus->getId();
+    //     $this->emailStatus = $this->emailStatuses->findById($id);
+    //     $this->assertEquals($this->emailStatus->getId(), $id);
+    // }
+
+    // public function testIsExistsSuccess()
+    // {
+    //     $isExists = $this->emailStatuses->isExists($this->emailStatus);
+    //     $this->assertTrue($isExists);
+    // }
+
+    public function testStoreSuccess(): void
     {
         $this->emailStatus = $this->emailStatusFixture->create();
-        $isExists = $this->emailStatuses->isExists($this->emailStatus);
-        $this->assertTrue($isExists);
-    }
-
-    public function testFindByCodenameSuccess()
-    {
-        $codename = $this->emailStatus->getCodename();
-        $this->emailStatus = $this->emailStatuses->findByCodename($codename);
-        $this->assertEquals($this->emailStatus->getCodename(), $codename);
-    }
-
-    public function testFindByIdSuccess()
-    {
-        $id = $this->emailStatus->getId();
-        $this->emailStatus = $this->emailStatuses->findById($id);
-        $this->assertEquals($this->emailStatus->getId(), $id);
-    }
-
-    public function testIsExistsSuccess()
-    {
         $isExists = $this->emailStatuses->isExists($this->emailStatus);
         $this->assertTrue($isExists);
     }

@@ -19,7 +19,22 @@ class EmailRepository extends ServiceEntityRepository implements EmailRepository
         $this->em = $this->getEntityManager();
     }
 
-    public function create(Email $email): void
+    public function findByEmailStatusId(int $id): array
+    {
+        return $this->findBy(['emailStatus' => $id]);
+    }
+
+    public function findById(string $id): ?Email
+    {
+        return $this->find($id);
+    }
+
+    public function isExistsByParams(array $params): bool
+    {
+        return (bool)$this->findOneBy($params);
+    }
+
+    public function store(Email $email): void
     {
         $this->em->persist($email);
         $this->em->flush();
@@ -28,7 +43,7 @@ class EmailRepository extends ServiceEntityRepository implements EmailRepository
     /**
      * @param Email[] $emails
      */
-    public function createDistribution(array $emails): void
+    public function storeDistribution(array $emails): void
     {
         foreach ($emails as $email) {
             $isExistsEmail = $this->isExistsByParams([
@@ -41,20 +56,5 @@ class EmailRepository extends ServiceEntityRepository implements EmailRepository
             }
         }
         $this->em->flush();
-    }
-
-    public function findById(string $id): ?Email
-    {
-        return $this->find($id);
-    }
-
-    public function findByEmailStatusId(int $id): array
-    {
-        return $this->findBy(['emailStatus' => $id]);
-    }
-
-    public function isExistsByParams(array $params): bool
-    {
-        return (bool)$this->findOneBy($params);
     }
 }

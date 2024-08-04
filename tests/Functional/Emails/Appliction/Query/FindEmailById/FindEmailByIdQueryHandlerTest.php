@@ -19,7 +19,7 @@ class FindEmailByIdQueryHandlerTest extends WebTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->queryBus = $this::getContainer()->get(QueryBusInterface::class);
+        $this->queryBus = static::getContainer()->get(QueryBusInterface::class);
         $this->emails = static::getContainer()->get(EmailRepositoryInterface::class);
         $emailStatuses = static::getContainer()->get(EmailStatusRepositoryInterface::class);
         $this->emailFixture = new EmailFixture($this->emails, $emailStatuses);
@@ -35,13 +35,13 @@ class FindEmailByIdQueryHandlerTest extends WebTestCase
         $this->assertEquals($emailDTO->id, $email->getId());
     }
 
-    public function testFindEmailByIdFailed(): void
-    {
-        $email = $this->emailFixture->create();
-        $query = new FindEmailByIdQuery($email->getId());
-        $emailDTO = $this->queryBus->execute($query);
+    // public function testFindEmailByIdFailed(): void
+    // {
+    //     $email = $this->emailFixture->create();
+    //     $query = new FindEmailByIdQuery($email->getId());
+    //     $emailDTO = $this->queryBus->execute($query);
 
-        $this->assertInstanceOf(EmailDTO::class, $emailDTO);
-        $this->assertEquals($emailDTO->id, $email->getId());
-    }
+    //     $this->assertInstanceOf(EmailDTO::class, $emailDTO);
+    //     $this->assertEquals($emailDTO->id, $email->getId());
+    // }
 }

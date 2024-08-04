@@ -22,7 +22,7 @@ class CreateEmailDistributionCommandHandler implements CommandHandlerInterface
     public function __invoke(CreateEmailDistributionCommand $createEmailDistribution): int
     {
         $this->fillEmailsList($createEmailDistribution);
-        $this->emails->createDistribution($this->emailsList);
+        $this->emails->storeDistribution($this->emailsList);
 
         return count($this->emailsList);
     }
