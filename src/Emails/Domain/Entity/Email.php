@@ -42,6 +42,11 @@ class Email
         return $this->emailStatus;
     }
 
+    public function setEmailStatus(EmailStatus $emailStatus): void
+    {
+        $this->emailStatus = $emailStatus;
+    }
+
     public function getAddress(): string
     {
         return $this->address;
@@ -60,5 +65,10 @@ class Email
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
+    }
+
+    public function isEmailStatusNew(): bool
+    {
+        return $this->emailStatus->getCodename() === EmailStatus::NEW;
     }
 }

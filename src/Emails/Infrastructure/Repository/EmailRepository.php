@@ -48,6 +48,11 @@ class EmailRepository extends ServiceEntityRepository implements EmailRepository
         return $this->find($id);
     }
 
+    public function findByEmailStatusId(int $id): array
+    {
+        return $this->findBy(['emailStatus' => $id]);
+    }
+
     public function isExistsByParams(array $params): bool
     {
         return (bool)$this->findOneBy($params);

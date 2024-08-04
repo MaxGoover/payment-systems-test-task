@@ -13,7 +13,7 @@ class EmailStatusFixture extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        foreach (EmailStatus::LIST_CODENAMES as $codename) {
+        foreach (EmailStatus::LIST_ALL as $codename) {
             $emailStatus = EmailStatusFactory::create($codename);
             $manager->persist($emailStatus);
         }

@@ -12,7 +12,7 @@ class EmailStatus
     const BUS_ERROR = 'bus_error';
     const SENDING_ERROR = 'sending_error';
 
-    const LIST_CODENAMES = [
+    const LIST_ALL = [
         self::NEW,
         self::IN_QUEUE,
         self::SENT,

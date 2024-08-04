@@ -12,6 +12,9 @@ interface EmailRepositoryInterface
     
     public function createDistribution(array $emails): void;
 
+    public function findByEmailStatusId(int $id): array;
+
     public function findById(string $id): ?Email;
 
+    public function isExistsByParams(array $params): bool;
 }

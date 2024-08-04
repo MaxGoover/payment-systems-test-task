@@ -4,8 +4,17 @@ FROM php:${PHP_VERSION}-fpm-alpine
 
 RUN apk add --no-cache curl git build-base zlib-dev oniguruma-dev autoconf bash
 
-#postgres
-RUN apk add --no-cache libpq-dev && docker-php-ext-install pdo_pgsql
+RUN apk add --no-cache libpq-dev \
+    && docker-php-ext-install pdo_pgsql
+
+RUN apk add --no-cache \
+    rabbitmq-c-dev \
+    libtool \
+    gcc \
+    g++ \
+    make \
+    && pecl install amqp \
+    && docker-php-ext-enable amqp
 
 ARG PUID=1000
 ARG PGID=1000
