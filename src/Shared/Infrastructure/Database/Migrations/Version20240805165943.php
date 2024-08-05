@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240801183558 extends AbstractMigration
+final class Version20240805165943 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,21 +20,30 @@ final class Version20240801183558 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP SEQUENCE emails_id_seq CASCADE');
+        $this->addSql('CREATE SEQUENCE cron_job_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE SEQUENCE cron_report_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE TABLE cron_job (id INT NOT NULL, name VARCHAR(191) NOT NULL, command VARCHAR(1024) NOT NULL, schedule VARCHAR(191) NOT NULL, description VARCHAR(191) NOT NULL, enabled BOOLEAN NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX un_name ON cron_job (name)');
+        $this->addSql('CREATE TABLE cron_report (id INT NOT NULL, job_id INT DEFAULT NULL, run_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, run_time DOUBLE PRECISION NOT NULL, exit_code INT NOT NULL, output TEXT NOT NULL, error TEXT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_B6C6A7F5BE04EA9 ON cron_report (job_id)');
         $this->addSql('CREATE TABLE email_statuses (id SMALLINT NOT NULL, codename VARCHAR(100) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_40960158FB685056 ON email_statuses (codename)');
         $this->addSql('CREATE TABLE emails (id VARCHAR(26) NOT NULL, email_status_id SMALLINT NOT NULL, address VARCHAR(320) NOT NULL, theme VARCHAR(500) NOT NULL, content TEXT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_4C81E85264FC9F96 ON emails (email_status_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_4C81E852D4E6F819775E708 ON emails (address, theme)');
+        $this->addSql('ALTER TABLE cron_report ADD CONSTRAINT FK_B6C6A7F5BE04EA9 FOREIGN KEY (job_id) REFERENCES cron_job (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE emails ADD CONSTRAINT FK_4C81E85264FC9F96 FOREIGN KEY (email_status_id) REFERENCES email_statuses (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
-        $this->addSql('CREATE SEQUENCE emails_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('DROP SEQUENCE cron_job_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE cron_report_id_seq CASCADE');
+        $this->addSql('ALTER TABLE cron_report DROP CONSTRAINT FK_B6C6A7F5BE04EA9');
         $this->addSql('ALTER TABLE emails DROP CONSTRAINT FK_4C81E85264FC9F96');
+        $this->addSql('DROP TABLE cron_job');
+        $this->addSql('DROP TABLE cron_report');
         $this->addSql('DROP TABLE email_statuses');
         $this->addSql('DROP TABLE emails');
     }

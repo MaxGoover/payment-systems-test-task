@@ -1,4 +1,7 @@
 {
+    "cron/cron-bundle": {
+        "version": "3.1.1"
+    },
     "dama/doctrine-test-bundle": {
         "version": "8.2",
         "recipe": {

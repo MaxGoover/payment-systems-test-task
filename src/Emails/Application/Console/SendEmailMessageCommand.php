@@ -17,7 +17,7 @@ use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsCommand(
-    name: 'rabbitmq:send-email-message',
+    name: 'app:rabbitmq:send-email-message',
     description: 'Send email into rabbitmq',
 )]
 class SendEmailMessageCommand extends Command

@@ -28,6 +28,10 @@ class EmailMessageHandler
         $email = $this->emails->findById($emailMessage->id);
         $emailStatus = $this->emailStatuses->findByCodename(EmailStatus::SENT);
 
+        if (is_null($email)) {
+            return 'Email с таким идентификатором не найден: emailId = ' . $emailMessage->id;
+        }
+
         if (!$email->isEmailStatusInQueue()) {
             return 'Неподходящий статус для отправки: emailId = ' . $email->getId();
         }

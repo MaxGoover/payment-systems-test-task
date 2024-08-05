@@ -16,6 +16,9 @@ RUN apk add --no-cache \
     && pecl install amqp \
     && docker-php-ext-enable amqp
 
+RUN docker-php-ext-configure pcntl --enable-pcntl \
+    && docker-php-ext-install pcntl
+
 ARG PUID=1000
 ARG PGID=1000
 RUN apk --no-cache add shadow && \
