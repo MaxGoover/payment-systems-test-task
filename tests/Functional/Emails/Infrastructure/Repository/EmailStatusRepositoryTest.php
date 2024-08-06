@@ -23,25 +23,25 @@ class EmailStatusRepositoryTest extends WebTestCase
         $this->testStoreSuccess();
     }
 
-    // public function testFindByCodenameSuccess()
-    // {
-    //     $codename = $this->emailStatus->getCodename();
-    //     $this->emailStatus = $this->emailStatuses->findByCodename($codename);
-    //     $this->assertEquals($this->emailStatus->getCodename(), $codename);
-    // }
+    public function testFindByCodenameSuccess()
+    {
+        $codename = $this->emailStatus->getCodename();
+        $this->emailStatus = $this->emailStatuses->findByCodename($codename);
+        $this->assertEquals($this->emailStatus->getCodename(), $codename);
+    }
 
-    // public function testFindByIdSuccess()
-    // {
-    //     $id = $this->emailStatus->getId();
-    //     $this->emailStatus = $this->emailStatuses->findById($id);
-    //     $this->assertEquals($this->emailStatus->getId(), $id);
-    // }
+    public function testFindByIdSuccess()
+    {
+        $id = $this->emailStatus->getId();
+        $this->emailStatus = $this->emailStatuses->findById($id);
+        $this->assertEquals($this->emailStatus->getId(), $id);
+    }
 
-    // public function testIsExistsSuccess()
-    // {
-    //     $isExists = $this->emailStatuses->isExists($this->emailStatus);
-    //     $this->assertTrue($isExists);
-    // }
+    public function testIsExistsSuccess()
+    {
+        $isExists = $this->emailStatuses->isExists($this->emailStatus);
+        $this->assertTrue($isExists);
+    }
 
     public function testStoreSuccess(): void
     {
