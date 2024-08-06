@@ -19,12 +19,12 @@ class CreateEmailDistributionCommandHandler implements CommandHandlerInterface
     ) {
     }
 
-    public function __invoke(CreateEmailDistributionCommand $createEmailDistribution): int
+    public function __invoke(CreateEmailDistributionCommand $createEmailDistribution): array
     {
         $this->fillEmailsList($createEmailDistribution);
         $this->emails->storeDistribution($this->emailsList);
 
-        return count($this->emailsList);
+        return $this->getEmailIdsList();
     }
 
     private function fillEmailsList(CreateEmailDistributionCommand $createEmailDistribution): void
@@ -39,5 +39,13 @@ class CreateEmailDistributionCommandHandler implements CommandHandlerInterface
                 $emailStatusNew,
             );
         }
+    }
+
+    /**
+     * @return int[]
+     */
+    private function getEmailIdsList(): array
+    {
+        return array_map(fn ($email) => $email->getId(), $this->emailsList);
     }
 }

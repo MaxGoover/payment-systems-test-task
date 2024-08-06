@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240805165943 extends AbstractMigration
+final class Version20240805182545 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,8 +20,6 @@ final class Version20240805165943 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SEQUENCE cron_job_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE cron_report_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE cron_job (id INT NOT NULL, name VARCHAR(191) NOT NULL, command VARCHAR(1024) NOT NULL, schedule VARCHAR(191) NOT NULL, description VARCHAR(191) NOT NULL, enabled BOOLEAN NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX un_name ON cron_job (name)');
         $this->addSql('CREATE TABLE cron_report (id INT NOT NULL, job_id INT DEFAULT NULL, run_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, run_time DOUBLE PRECISION NOT NULL, exit_code INT NOT NULL, output TEXT NOT NULL, error TEXT NOT NULL, PRIMARY KEY(id))');
@@ -33,13 +31,13 @@ final class Version20240805165943 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_4C81E852D4E6F819775E708 ON emails (address, theme)');
         $this->addSql('ALTER TABLE cron_report ADD CONSTRAINT FK_B6C6A7F5BE04EA9 FOREIGN KEY (job_id) REFERENCES cron_job (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE emails ADD CONSTRAINT FK_4C81E85264FC9F96 FOREIGN KEY (email_status_id) REFERENCES email_statuses (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+
+        $this->addSql("INSERT INTO cron_job (id, name, command, schedule, description, enabled) VALUES (1, 'RunSendEmailMessage', 'app:rabbitmq:send-email-message', '* * * * *', 'Send email into rabbitmq', true)");
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP SEQUENCE cron_job_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE cron_report_id_seq CASCADE');
         $this->addSql('ALTER TABLE cron_report DROP CONSTRAINT FK_B6C6A7F5BE04EA9');
         $this->addSql('ALTER TABLE emails DROP CONSTRAINT FK_4C81E85264FC9F96');
         $this->addSql('DROP TABLE cron_job');

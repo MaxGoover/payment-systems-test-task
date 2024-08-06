@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Infrastructure\Action;
+namespace App\Emails\Infrastructure\Controller;
 
 use App\Emails\Application\Query\FindEmailById\FindEmailByIdQuery;
 use App\Shared\Application\Query\QueryBusInterface;

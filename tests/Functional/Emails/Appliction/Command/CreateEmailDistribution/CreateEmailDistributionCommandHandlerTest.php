@@ -31,8 +31,12 @@ class CreateEmailDistributionCommandHandlerTest extends WebTestCase
         $this->fillAddressesList();
 
         $command = new CreateEmailDistributionCommand($this->addressesList, $email->getTheme(), $email->getContent());
-        $countCreatedEmails = $this->commandBus->execute($command);
-        $this->assertEquals(count($this->addressesList), $countCreatedEmails);
+        $emailIdsList = $this->commandBus->execute($command);
+        $this->assertEquals(count($this->addressesList), count($emailIdsList));
+
+        foreach ($emailIdsList as $emailId) {
+            $this->assertIsString($emailId);
+        }
     }
 
     private function fillAddressesList()

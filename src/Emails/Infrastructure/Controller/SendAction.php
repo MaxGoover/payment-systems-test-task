@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Infrastructure\Action;
+namespace App\Emails\Infrastructure\Controller;
 
 use App\Emails\Application\Command\CreateEmailDistribution\CreateEmailDistributionCommand;
 use App\Shared\Application\Command\CommandBusInterface;
@@ -22,10 +22,10 @@ class SendAction extends AbstractController
     public function __invoke(Request $request): JsonResponse
     {
         $command = $this->serializer->deserialize($request->getContent(), CreateEmailDistributionCommand::class, 'json');
-        $countCreatedEmails = $this->commandBus->execute($command);
+        $createdEmailIdsList = $this->commandBus->execute($command);
 
         return new JsonResponse([
-            'countCreatedEmails' => $countCreatedEmails,
+            'createdEmailIdsList' => $createdEmailIdsList,
             'message'            => 'Emails created successfully',
         ]);
     }

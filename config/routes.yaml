@@ -1,5 +1,5 @@
 controllers:
   resource:
-    path: ../src/Shared/Infrastructure/Action/
-    namespace: App\Shared\Infrastructure\Action
+    path: ../src/Emails/Infrastructure/Controller/
+    namespace: App\Emails\Infrastructure\Controller
   type: attribute

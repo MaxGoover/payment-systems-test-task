@@ -2,7 +2,7 @@
 
 namespace Tests\Functional\Emails\Application\Console;
 
-use App\Emails\Application\Console\SendEmailMessageCommand;
+use App\Emails\Application\Console\SendEmailNewMessageCommand;
 use App\Emails\Domain\Entity\EmailStatus;
 use App\Emails\Domain\Repository\EmailRepositoryInterface;
 use App\Emails\Domain\Repository\EmailStatusRepositoryInterface;
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Tests\Fixture\Emails\EmailFixture;
 
-class SendEmailMessageCommandTest extends KernelTestCase
+class SendEmailNewMessageCommandTest extends KernelTestCase
 {
     private EmailFixture $emailFixture;
     private EmailRepositoryInterface $emails;
@@ -35,7 +35,7 @@ class SendEmailMessageCommandTest extends KernelTestCase
         }
         $this->emails->storeDistribution($emailsList);
 
-        $command = new SendEmailMessageCommand(
+        $command = new SendEmailNewMessageCommand(
             $this->emails,
             $this->emailStatuses,
             $this->messageBus,

@@ -33,7 +33,7 @@ class EmailMessageHandler
         }
 
         if (!$email->isEmailStatusInQueue()) {
-            return 'Неподходящий статус для отправки: emailId = ' . $email->getId();
+            return 'Неподходящий статус email`а для отправки: emailId = ' . $email->getId();
         }
 
         $emailToSend = (new Email())

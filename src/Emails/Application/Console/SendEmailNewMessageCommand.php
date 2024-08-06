@@ -17,10 +17,10 @@ use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsCommand(
-    name: 'app:rabbitmq:send-email-message',
+    name: 'app:rabbitmq:send-email-new-message',
     description: 'Send email into rabbitmq',
 )]
-class SendEmailMessageCommand extends Command
+class SendEmailNewMessageCommand extends Command
 {
     public function __construct(
         private readonly EmailRepositoryInterface $emails,
