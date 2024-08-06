@@ -31,8 +31,6 @@ final class Version20240805182545 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_4C81E852D4E6F819775E708 ON emails (address, theme)');
         $this->addSql('ALTER TABLE cron_report ADD CONSTRAINT FK_B6C6A7F5BE04EA9 FOREIGN KEY (job_id) REFERENCES cron_job (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE emails ADD CONSTRAINT FK_4C81E85264FC9F96 FOREIGN KEY (email_status_id) REFERENCES email_statuses (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-
-        $this->addSql("INSERT INTO cron_job (id, name, command, schedule, description, enabled) VALUES (1, 'RunSendEmailMessage', 'app:rabbitmq:send-email-message', '* * * * *', 'Send email into rabbitmq', true)");
     }
 
     public function down(Schema $schema): void
