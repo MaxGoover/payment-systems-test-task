@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Emails\Domain\Entity;
 
-use App\Shared\Domain\Service\UidService;
+use App\Shared\Infrastructure\Service\UidService;
 use DateTime;
 
 class Email

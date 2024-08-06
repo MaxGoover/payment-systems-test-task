@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Domain\Service;
+namespace App\Shared\Infrastructure\Service;
 
+use App\Shared\Domain\Service\UidServiceInterface;
 use Symfony\Component\Uid\Ulid;
 
-class UidService
+class UidService implements UidServiceInterface
 {
     public static function generateUlid(): string
     {
