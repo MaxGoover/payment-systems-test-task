@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240805182545 extends AbstractMigration
+final class Version20240807085937 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,9 +26,10 @@ final class Version20240805182545 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_B6C6A7F5BE04EA9 ON cron_report (job_id)');
         $this->addSql('CREATE TABLE email_statuses (id SMALLINT NOT NULL, codename VARCHAR(100) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_40960158FB685056 ON email_statuses (codename)');
-        $this->addSql('CREATE TABLE emails (id VARCHAR(26) NOT NULL, email_status_id SMALLINT NOT NULL, address VARCHAR(320) NOT NULL, theme VARCHAR(500) NOT NULL, content TEXT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE emails (id UUID NOT NULL, email_status_id SMALLINT NOT NULL, address VARCHAR(320) NOT NULL, theme VARCHAR(500) NOT NULL, content TEXT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_4C81E85264FC9F96 ON emails (email_status_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_4C81E852D4E6F819775E708 ON emails (address, theme)');
+        $this->addSql('COMMENT ON COLUMN emails.id IS \'(DC2Type:uuid)\'');
         $this->addSql('ALTER TABLE cron_report ADD CONSTRAINT FK_B6C6A7F5BE04EA9 FOREIGN KEY (job_id) REFERENCES cron_job (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE emails ADD CONSTRAINT FK_4C81E85264FC9F96 FOREIGN KEY (email_status_id) REFERENCES email_statuses (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
@@ -36,6 +37,7 @@ final class Version20240805182545 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE cron_report DROP CONSTRAINT FK_B6C6A7F5BE04EA9');
         $this->addSql('ALTER TABLE emails DROP CONSTRAINT FK_4C81E85264FC9F96');
         $this->addSql('DROP TABLE cron_job');

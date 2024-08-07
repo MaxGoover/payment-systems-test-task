@@ -24,7 +24,7 @@ class Email
         EmailStatus $emailStatus,
         DateTime $createdAt,
     ) {
-        $this->id = UidService::generateUlid();
+        $this->id = UidService::generateUuid();
         $this->address = $address;
         $this->theme = $theme;
         $this->content = $content;

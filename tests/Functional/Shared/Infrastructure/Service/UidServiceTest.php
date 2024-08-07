@@ -9,10 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UidServiceTest extends WebTestCase
 {
-    public function testCreateSuccess()
+    public function testGenerateUuidSuccess()
     {
-        $ulid = UidService::generateUlid();
+        $ulid = UidService::generateUuid();
         $this->assertIsString($ulid);
-        $this->assertEquals(strlen($ulid), 26);
+        $this->assertEquals(mb_strlen($ulid), 36);
     }
 }

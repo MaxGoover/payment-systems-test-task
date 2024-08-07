@@ -23,7 +23,7 @@ class EmailStatusFixture
 
     public function create(): EmailStatus
     {
-        $codename = $this->faker->text(10);
+        $codename = $this->faker->text(50);
         $emailStatus = EmailStatusFactory::create($codename);
         $this->emailStatuses->store($emailStatus);
 

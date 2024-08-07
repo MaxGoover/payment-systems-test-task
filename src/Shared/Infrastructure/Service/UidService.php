@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Shared\Infrastructure\Service;
 
 use App\Shared\Application\Service\UidServiceInterface;
-use Symfony\Component\Uid\Ulid;
+use Symfony\Component\Uid\Uuid;
 
 class UidService implements UidServiceInterface
 {
-    public static function generateUlid(): string
+    public static function generateUuid(): string
     {
-        return Ulid::generate();
+        return Uuid::v4()->toString();
     }
 }

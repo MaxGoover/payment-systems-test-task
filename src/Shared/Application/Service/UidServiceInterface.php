@@ -6,5 +6,5 @@ namespace App\Shared\Application\Service;
 
 interface UidServiceInterface
 {
-    public static function generateUlid(): string;
+    public static function generateUuid(): string;
 }

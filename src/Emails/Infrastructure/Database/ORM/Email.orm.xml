@@ -2,7 +2,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           http://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
   <entity name="App\Emails\Domain\Entity\Email" table="emails">
-    <id name="id" type="string" length="26">
+    <id name="id" type="uuid">
       <generator strategy="NONE"/>
     </id>
     <field name="address" type="string" length="320" nullable="false"/>
