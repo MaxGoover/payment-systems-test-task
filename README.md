@@ -127,6 +127,12 @@
           <br>
           confirm
         </li>
+        <li>Запускаем crontab jobs командой:
+          <br>
+          <code>
+            bin/console cron:start
+          </code>
+        </li>
       </ul>
       Готово! Оставаюсь в контейнере, давайте попробуем запустить тесты командой:
       <br>
